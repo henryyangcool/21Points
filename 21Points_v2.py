@@ -1,10 +1,12 @@
 import random
 import os
 
-card8decks = {"A": 4, "2": 4, "3": 4, "4": 4,
-              "5": 4, "6": 4, "7": 4, "8": 4,
-              "9": 4, "10": 4, "J": 4, "Q": 4,
-              "K": 4}
+
+z = 4
+card8decks = {"A": z, "2": z, "3": z, "4": z,
+              "5": z, "6": z, "7": z, "8": z,
+              "9": z, "10": z, "J": z, "Q": z,
+              "K": z}
 
 
 def l():
@@ -20,6 +22,15 @@ def l():
     else:
         return str(cards)
 
+def judgeEnd(card8decks):
+    flag = 0
+    for i in card8decks:
+        if card8decks[i] == 0:
+            flag += 1
+    if flag == 13:
+        return True
+    else:
+        return False
 
 def licensing(card8decks, cards, card):
     x = l()
@@ -33,8 +44,12 @@ def licensing(card8decks, cards, card):
 def main():
     # ---------------------
     # 發牌
-    cards = 52 * 4
-    while cards > 0:
+    cards = 13 * z
+    playerWin = 0
+    bankerWin = 0
+    winrate = 0
+    cardSum = 0
+    while cards > 10:
         os.system("cls")
         playertotal = 0
         bankertotal = 0
@@ -47,8 +62,12 @@ def main():
         # 玩家:第一張 第二張
         print("Player's Card")
         licensing(card8decks, cards, Playerscard)
+        # if judgeEnd(card8decks) or :
+        #     break
         licensing(card8decks, cards, Playerscard)
         playerCurr = 2
+        cardSum += 2
+        cards -= 2
         for i in Playerscard:
             if i == "K" or i == "Q" or i == "J":
                 print(i, end=" ")
@@ -66,6 +85,8 @@ def main():
         licensing(card8decks, cards, Bankerscard)
         licensing(card8decks, cards, Bankerscard)
         bankerCurr = 2
+        cardSum += 2
+        cards -= 2
         for i in Bankerscard:
             if i == "K" or i == "Q" or i == "J":
                 bankertotal += 10
@@ -85,6 +106,8 @@ def main():
             if choose == 1:
                 licensing(card8decks, cards, Playerscard)
                 playerCurr += 1
+                cardSum += 1
+                cards -= 1
                 for i in Playerscard:
                     if i == "K" or i == "Q" or i == "J":
                         print(i, end=" ")
@@ -100,6 +123,10 @@ def main():
                             playertotal += int(i)
                 if playertotal > 21:
                     print("\nYou lose!")
+                    bankerWin += 1
+                    winrate = playerWin / (playerWin + bankerWin) * 100
+                    print("Win Rate:",winrate,"%")
+                    print("目前使用牌數量",cardSum)
                     input()
                     # break
             elif choose == 2:
@@ -110,6 +137,8 @@ def main():
                 while bankertotal < 17:
                     licensing(card8decks, cards, Bankerscard)
                     bankerCurr += 1
+                    cardSum += 1
+                    cards -= 1
                     print("Banker's Card")
                     for i in Bankerscard:
                         if i == "K" or i == "Q" or i == "J":
@@ -132,13 +161,21 @@ def main():
                         for i in Bankerscard:
                             print(i, end=" ")
                     print("\nYou Lose!")
+                    bankerWin += 1
+                    winrate = playerWin / (playerWin + bankerWin) * 100
+                    print("Win Rate:",winrate,"%")
+                    print("目前使用牌數量",cardSum)
                     input()
-                elif playertotal > bankertotal or bankertotal > 21:
+                elif playertotal > bankertotal or bankertotal > 21 or playertotal == 21:
                     if bank17Flag:
                         print("\nBanker's Card")
                         for i in Bankerscard:
                             print(i, end=" ")
                     print("\nYou Win!")
+                    playerWin += 1
+                    winrate = playerWin / (playerWin + bankerWin) * 100
+                    print("Win Rate:",winrate,"%")
+                    print("目前使用牌數量",cardSum)
                     input()
                 elif playertotal == bankertotal:
                     if bank17Flag:
@@ -146,23 +183,35 @@ def main():
                         for i in Bankerscard:
                             print(i, end=" ")
                     print("\nTie!")
+                    # tie += 1
+                    print("Win Rate:",winrate,"%")
+                    print("目前使用牌數量",cardSum)
                     input()
-                elif playertotal == 21:
-                    if bank17Flag:
-                        print("Banker's Card")
-                        for i in Bankerscard:
-                            print(i, end=" ")
-                    print("\nThe High")
-                    input()
+                # elif playertotal == 21:
+                #     if bank17Flag:
+                #         print("Banker's Card")
+                #         for i in Bankerscard:
+                #             print(i, end=" ")
+                #     print("\nThe High")
+                #     input()
                 break
         # if playertotal > 21:
         #     print("\nYou lose")
-        # elif playertotal == 21:
-        #     print("\nThe High")
-        # os.system("cls")
-        # print("----------")
-        
+        #     bankerWin += 1
+        #     winrate = playerWin / (playerWin + bankerWin) * 100
+        #     print("Win Rate:",winrate,"%")
+        #     print("目前使用牌數量",cardSum)
+        #     input()
+        if playertotal == 21:
+            print("\nThe High")
+            playerWin += 1
+            winrate = playerWin / (playerWin + bankerWin) * 100
+            print("Win Rate:",winrate,"%")
+            print("目前使用牌數量",cardSum)
+            input()
+        # print("----------")        
 
 
 if __name__ == "__main__":
     main()
+    print("End")
