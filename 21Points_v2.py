@@ -2,7 +2,7 @@ import random
 import os
 
 
-z = 2
+z = 8
 card8decks = {"A": 4 * z, "2": 4 * z, "3": 4 * z, "4": 4 * z,
               "5": 4 * z, "6": 4 * z, "7": 4 * z, "8": 4 * z,
               "9": 4 * z, "10": 4 * z, "J": 4 * z, "Q": 4 * z,
