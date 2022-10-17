@@ -1,5 +1,6 @@
 import random
 import os
+from tokenize import Double3
 
 
 z = 2
@@ -94,109 +95,28 @@ def main():
             print("\nBlack Jack!")
             blackjack = False
         # ----------------------------------
-        while playertotal < 21:
-            choose = int(input("\n[Hit:1,Stand:2,Double:3,Split:4]  "))
-            if choose == 1:
-                # ----------------------------------
-                # 派牌
-                licensing(card8decks, cards, Playerscard)
-                playerCurr += 1
-                cardSum += 1
-                cards -= 1
-                # ----------------------------------
-                playertotal = 0
-                print("Player's card")
-                for i in Playerscard:
-                    if i == "K" or i == "Q" or i == "J":
-                        print(i, end=" ")
-                        playertotal += 10
-                    elif i == "A":
-                        print(i, end=" ")
-                        playertotal += 1
-                    else:
-                        print(i, end=" ")
-                        playertotal += int(i)
-                print()
-                # ----------------------------------
-                if playertotal > 21:
-                    print("You lose!")
-                    bankerWin += 1
-                    winrate = playerWin / (playerWin + bankerWin) * 100
-                    print("Win Rate:",winrate,"%")
-                    print("目前使用牌數量",cardSum)
-                    input()
-                    break
-            elif choose == 2:
-                print("Player's Card")
-                for i in Playerscard:
-                    print(i, end=" ")
-                print()
-                # ----------------------------------
-                # 莊家派牌
-                while bankertotal < 17:
-                    licensing(card8decks, cards, Bankerscard)
-                    bankerCurr += 1
-                    cardSum += 1
-                    cards -= 1
-                    # ----------------------------------
-                    print("Banker's Card")
-                    bankertotal = 0
-                    for i in Bankerscard:
-                        if i == "K" or i == "Q" or i == "J":
-                            print(i, end=" ")
-                            bankertotal += 10
-                        elif i == "A":
-                            print(i, end=" ")
-                            bankertotal += 1
-                        else:
-                            print(i, end=" ")
-                            bankertotal += int(i)
-                    bank17Flag = False
-                    print()
-                    if bankertotal > 21:
-                        if bank17Flag:
-                            print("\nBanker's Card")
-                            for i in Bankerscard:
-                                print(i, end=" ")
-                            print()
-                        print("You Win!")
-                        playerWin += 1
-                        winrate = playerWin / (playerWin + bankerWin) * 100
-                        print("Win Rate:",winrate,"%")
-                        print("目前使用牌數量",cardSum)
-                        input()
-                        break
-                # ----------------------------------    
-                if (bankertotal < 21 and bankertotal > playertotal) or (bankertotal == 21 and playertotal < 21):
-                    if bank17Flag:
-                        print("Banker's Card")
-                        for i in Bankerscard:
-                            print(i, end=" ")
-                        print()
-                    print("You Lose!")
-                    bankerWin += 1
-                    winrate = playerWin / (playerWin + bankerWin) * 100
-                    print("Win Rate:",winrate,"%")
-                    print("目前使用牌數量",cardSum)
-                    input()
-                elif playertotal == bankertotal:
-                    if bank17Flag:
-                        print("Banker's Card")
-                        for i in Bankerscard:
-                            print(i, end=" ")
-                        print()
-                    print("Tie!")
-                    print("Win Rate:",winrate,"%")
-                    print("目前使用牌數量",cardSum)
-                    input()
-                break
-        if playertotal == 21 and blackjack:
-            print("The High")
-            playerWin += 1
-            winrate = playerWin / (playerWin + bankerWin) * 100
-            print("Win Rate:",winrate,"%")
-            print("目前使用牌數量",cardSum)
-            input()
+        if (10 <= playertotal <= 11) and Bankerscard[0] != "A":
+            # double
+            break
+        elif playertotal == 9 and (3 <= int(Bankerscard[0]) <= 6):
+            # double
+            break
+        elif playertotal == 12 and (4 <= int(Bankerscard[0]) <= 6):
+            # stand
+            break
+        elif (13 <= playertotal <= 16) and (2 <= int(Bankerscard[0]) <= 6):
+            # stand
+            break
+        elif playertotal == 17 or playertotal == 18:
+            # stand
+            break
+        else:
+            licensing(card8decks, cards, Playerscard)
+            playerCurr = 1
+            cardSum += 1
+            cards -= 1
+        # ----------------------------------    
+                
 
 if __name__ == "__main__":
     main()

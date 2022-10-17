@@ -95,7 +95,8 @@ def main():
             blackjack = False
         # ----------------------------------
         while playertotal < 21:
-            choose = int(input("\n[Hit:1,Stand:2,Double:3,Split:4]  "))
+            # choose = int(input("\n[Hit:1,Stand:2,Double:3,Split:4]  "))
+            choose = int(input("\n[Hit:1,Stand:2]  "))
             if choose == 1:
                 # ----------------------------------
                 # 派牌
@@ -197,7 +198,9 @@ def main():
             print("Win Rate:",winrate,"%")
             print("目前使用牌數量",cardSum)
             input()
+    print("牌不夠 結束遊戲")
 
 if __name__ == "__main__":
     main()
-    print("End")
+    input()
+    # print("End")
